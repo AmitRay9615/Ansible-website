@@ -1,0 +1,58 @@
+---
+- hosts: all
+  tasks:
+    - name: apt-get update
+      apt:
+        update-cache: yes
+      changed_when: 0
+
+    - name: "Install NGINX - PHP FPM - mysql - redis for webserver setup"
+      apt: name={{ item }} state=present
+      loop:
+        - nginx        
+        - php-fpm
+        - mysql-server
+        - redis-server  
+
+
+    - name: "Install Php packages"
+      apt: name={{ item }} state=present
+      loop:        
+        - php
+        - php-pear
+        - php-curl 
+        - php-gd 
+        - php-json-schema 
+        - php-mbstring
+        - php-bcmath
+        - php-soap
+        - php-pgsql
+        - php-bz2
+        - php-dba
+        - php-ldap
+        - php-xmlrpc
+        - php-zip
+        - php-dev
+        - php-mysqli
+        - php-mysqlnd
+        - php-redis
+        
+
+    - name: "services started"
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
+        - nginx
+        - php7.4-fpm
+        - mysql  
+        - redis
+
+
+
+
+
+
+
+
